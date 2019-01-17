@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 /*
 
 
@@ -48,6 +50,40 @@ Write an efficient algorithm for the following assumptions:
  */
 public class EquiLeader {
     int solution(int A[]) {
+        int equiLeaderCount =0;
+        for (int count=0; count < A.length; count++) {
+            try {
+                int leader1 = findEquiLeader(A, 0, count);
+                int leader2 = findEquiLeader(A, count + 1, A.length - 1);
+                if (leader1 == leader2) {
+                    equiLeaderCount++;
+
+                }
+            } catch (NoLeaderException e) {
+                continue;
+            }
+        }
+        return equiLeaderCount;
+    }
+
+    int findEquiLeader(int[] A, int startIndex, int endIndex) throws NoLeaderException {
+        Stack<Integer> intStack = new Stack<>();
+        for(int count = startIndex; count <= endIndex; count ++) {
+            if (intStack.empty()) {
+                intStack.push(A[count]);
+            } else {
+                if (intStack.peek() != A[count]) {
+                    intStack.pop();
+                } else {
+                    intStack.push( A[count]);
+                }
+            }
+        }
+        if (!intStack.isEmpty()) return intStack.peek();
+        throw new NoLeaderException();
+    }
+
+    class NoLeaderException extends Exception {
 
     }
 }
