@@ -48,38 +48,89 @@ Write an efficient algorithm for the following assumptions:
 
 
  */
-public class EquiLeader {
-    int solution(int A[]) {
-        int equiLeaderCount =0;
-        for (int count=0; count < A.length; count++) {
-            try {
-                int leader1 = findEquiLeader(A, 0, count);
-                int leader2 = findEquiLeader(A, count + 1, A.length - 1);
-                if (leader1 == leader2) {
-                    equiLeaderCount++;
+// you can also use imports, for example:
+import java.util.*;
 
-                }
-            } catch (NoLeaderException e) {
-                continue;
+// you can write to stdout for debugging purposes, e.g.
+// System.out.println("this is a debug message");
+
+class EquiLeader {
+    int solution(int A[]) {
+        int equiLeaderCount = 0;
+        int leader;
+        try {
+            leader = findEquiLeader(A, 0, A.length - 1);
+        } catch (NoLeaderException e) {
+            return 0;
+        }
+
+        int leaderCount = 0;
+        for (int count = 0; count < A.length; count++) {
+            if (A[count] == leader) {
+                leaderCount++;
             }
+        }
+        int leaderCountInLeft = 0;
+        for (int count = 0; count < A.length; count++) {
+            boolean validLeft, validRight = false;
+
+            if (A[count] == leader) {
+                leaderCountInLeft++;
+            }
+            int numberOfElementsInLeft = count + 1;
+            if (numberOfElementsInLeft == 1 && leaderCountInLeft == 1) {
+                validLeft = true;
+            } else if (leaderCountInLeft > numberOfElementsInLeft / 2) {
+                validLeft = true;
+            } else {
+                validLeft = false;
+            }
+            int leaderCountInRight = leaderCount - leaderCountInLeft;
+            int numberOfElementsInRight = A.length - 1 - count;
+            if (leaderCountInRight > numberOfElementsInRight / 2) {
+                validRight = true;
+            }
+
+            if (validLeft && validRight) {
+                equiLeaderCount++;
+            }
+
         }
         return equiLeaderCount;
     }
 
     int findEquiLeader(int[] A, int startIndex, int endIndex) throws NoLeaderException {
         Stack<Integer> intStack = new Stack<>();
-        for(int count = startIndex; count <= endIndex; count ++) {
+        for (int count = startIndex; count <= endIndex; count++) {
             if (intStack.empty()) {
                 intStack.push(A[count]);
             } else {
                 if (intStack.peek() != A[count]) {
                     intStack.pop();
                 } else {
-                    intStack.push( A[count]);
+                    intStack.push(A[count]);
                 }
             }
         }
-        if (!intStack.isEmpty()) return intStack.peek();
+
+        if (!intStack.empty()) {
+            int elementToBeLeader = intStack.peek();
+            int elementToBeLeaderCount = 0;
+            for (int count = startIndex; count <= endIndex; count++) {
+                if (A[count] == elementToBeLeader) {
+                    elementToBeLeaderCount++;
+                }
+            }
+            int mid;
+            int length = endIndex - startIndex + 1;
+            if (length == 1) {
+                mid = 0;
+            } else
+                mid = length / 2;
+
+            if (elementToBeLeaderCount > mid)
+                return elementToBeLeader;
+        }
         throw new NoLeaderException();
     }
 
