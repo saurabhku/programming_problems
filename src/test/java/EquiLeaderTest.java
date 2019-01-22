@@ -21,24 +21,31 @@ public class EquiLeaderTest {
     }
 
     @Test
+    public void testSolution_case2() {
+        int[] A = { 4, 4, 2, 5, 3, 4, 4, 4} ;
+        int solution = equiLeader.solution(A);
+        assertEquals(3, solution);
+    }
+
+    @Test
     public void testSolutionWithAllElementsSame() {
         int[] A = { 4, 4, 4} ;
         int solution = equiLeader.solution(A);
-        assertEquals(3, solution);
+        assertEquals(2, solution);
     }
 
     @Test
     public void testSolutionForTwoElements() {
         int[] A = { 4, 4} ;
         int solution = equiLeader.solution(A);
-        assertEquals(2, solution);
+        assertEquals(1, solution);
     }
 
     @Test
     public void testSolutionForSingleElement() {
         int[] A = { 4 } ;
         int solution = equiLeader.solution(A);
-        assertEquals(1, solution);
+        assertEquals(0, solution);
     }
 
     @After
