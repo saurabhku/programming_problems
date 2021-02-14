@@ -20,6 +20,27 @@ public class BinaryGapTest {
     }
 
     @Test
+    public void testSolutionCase2() {
+        int number = 9;
+        int solution = binaryGap.solution(number);
+        assertEquals(2, solution);
+    }
+
+    @Test
+    public void testSolutionCase3() {
+        int number = 1041;
+        int solution = binaryGap.solution(number);
+        assertEquals(5, solution);
+    }
+
+    @Test
+    public void testSolutionCase4() {
+        int number = 15;
+        int solution = binaryGap.solution(number);
+        assertEquals(0, solution);
+    }
+
+    @Test
     public void testSolutionWhenNoBinaryGap() {
         int number = 32;
         int solution = binaryGap.solution(number);

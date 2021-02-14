@@ -22,52 +22,34 @@
  N is an integer within the range [1..2,147,483,647].
 
 
- *
- *
+complexity O(log N)
  */
 
 
 public class BinaryGap {
 
-    public static void main(String[] ar) {
-        String binary = new BinaryGap().createBinary(328);
-        System.out.println(binary);
-        int binaryGap = new BinaryGap().findBinaryGap(binary);
-        System.out.println(binaryGap);
-    }
-
-    public int solution(int number) {
-        return findBinaryGap(createBinary(number));
-    }
-
-    private int findBinaryGap(String binary) {
-        char[] chars = binary.toCharArray();
-        int maxCount =0;
-        int currentCount =0;
-        boolean start = false;
-        for (char charv: chars ) {
-            if ((charv == '1') && start == false) {
-                start = true;
-            }
-            else if (charv == '1' && start == true) {
-                if (currentCount > maxCount) {
-                    maxCount =currentCount;
-                }
-                currentCount=0;
-            }
-            else if (charv == '0' && start == true) {
-                currentCount ++;
-            }
+    public int solution(int N) {
+        return findBinaryGap(N);
         }
-        return maxCount;
-    }
 
-    private String createBinary(int number) {
-        if ( number < 2) {
-            return Integer.toString(number);
-        }
-        String result =  createBinary(number/2) +  number%2 ;
-        return result;
+    int findBinaryGap(int number) {
+       int length=0;
+       int maxLength=0;
+       boolean countingStarted=false;
+       while ( number > 0) {
+           int binaryDigit = number%2;
+           if (binaryDigit == 0 ) {
+               if (countingStarted)
+                length++;
+           } else {
+               countingStarted = true;
+               if (length > maxLength) {
+                   maxLength = length;
+               }
+               length = 0;
+           }
+           number = number/2;
+       }
+       return maxLength;
     }
-
 }
