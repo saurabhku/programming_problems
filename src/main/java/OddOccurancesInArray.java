@@ -38,20 +38,26 @@ Write an efficient algorithm for the following assumptions:
  */
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class OddOccurancesInArray {
         public int solution(int[] A) {
-            Set<Integer> oddValueSet = new HashSet<>();
+            int uniqueElements = ((A.length) /2)+1;
+            int[] elements = new int[uniqueElements];
+            int[] count = new int[uniqueElements];
 
-            for ( int element : A) {
-                boolean add = oddValueSet.add(element);
-                if (!add) {
-                    oddValueSet.remove(element);
-                }
+            int solution = 0;
+            for(int value : A){
+                //XOR
+                // 0  0  0
+                // 0  1  1
+                // 1  0  0
+                // 1  1  1
+                //so a number xored with itself will cancel out
+                solution = solution ^ value;
             }
-
-            return  oddValueSet.stream().mapToInt(Integer::intValue).findFirst().getAsInt();
+            return solution;
         }
 
 }
