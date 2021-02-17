@@ -31,13 +31,19 @@ Write an efficient algorithm for the following assumptions:
 
  */
 
+
 public class PermMissingElement {
         public int solution(int[] A) {
-            long expectedSum = (((long)(A.length+2))*(A.length+1))/2;
-            for( int val: A) {
-                expectedSum = expectedSum-val;
+            if (A.length == 0) {
+                return 1;
             }
-            return (int)expectedSum;
+            double expectedTotalElements = A.length+1;
+            double expectedSum = (expectedTotalElements/2)*(expectedTotalElements+1);
+            double actualSum=0;
+            for (int number: A) {
+                actualSum = actualSum+number;
+            }
+            return (int) (expectedSum-actualSum);
         }
 
 }
