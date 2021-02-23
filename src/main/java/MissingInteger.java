@@ -29,55 +29,28 @@ Write an efficient algorithm for the following assumptions:
 public class MissingInteger {
 
     int solution(int A[]) {
-        int minimum = 1000001;
-        int maximum = -1000001;
-        for (int count=0; count < A.length; count++) {
-            if (A[count] < minimum) {
-                minimum = A[count];
-            }
-            if (A[count] > maximum) {
-                maximum = A[count];
+        int smallestPostive=0;
+        int maxPositive = 0;
+        for (int number: A) { //Find maximum positive
+            if (number> maxPositive) {
+                maxPositive = number;
             }
         }
-        int sizeOfNewArray = maximum-minimum+1;
-        int[] countArray = new int[sizeOfNewArray];
-        for (int count=0; count < A.length; count++ ) {
-            if (minimum <= 0) {
-                countArray[A[count]-minimum] = countArray[A[count]-minimum]+1;
-            } else {
-                countArray[A[count]-minimum] = countArray[A[count]-minimum]+1;
+        if (maxPositive == 0) { // if all numbers are negative, just return 1
+            return smallestPostive+1;
+        }
+        int[] data = new int[maxPositive]; //new array with all elements up to max number as indexes
+        for (int element: A) {  // when you encounter a +ve number, mark it in the array
+            if (element> 0)
+                data[element-1] = 1;
+        }
+        for (int count=0; count<maxPositive;count++) {
+            if (data[count] == 0) {  // find the unmarked smallest element
+                smallestPostive = count+1;
+                break;
             }
         }
-        int minimumPositive = maximum+1;
-        if (minimum <= 0) {
-            for(int count=0; count< countArray.length;count++) {
-                if (countArray[count] == 0) {
-                    int element = minimum+count;
-                    if( element > 0 && element < minimumPositive) {
-                        minimumPositive = element;
-                    }
-                }
-            }
-        } else {
-            for(int count=0; count< countArray.length;count++) {
-                if (countArray[count] == 0) {
-                    int element = count + minimum;
-                    if( element < minimumPositive) {
-                        minimumPositive = element;
-                    }
-                }
-            }
-        }
-
-        if(( minimumPositive <= 0) && (maximum <=0))
-            return 1;
-        else if(minimum >=2)
-            return 1;
-        else if(( minimumPositive <= 0) && (maximum >0))
-            return maximum+1;
-
-        else
-            return minimumPositive;
+    return smallestPostive==0?maxPositive+1:smallestPostive; //if nothing is marked return max positive +1
     }
 
 }
