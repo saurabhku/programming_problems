@@ -11,10 +11,10 @@ public class JumpingOnTheCloudsTest {
 
     @Test
     public void testPositiveScenarios() {
-        Integer[] c = {0,0,1,0,0,1,0};
+        Integer[] c = {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0};
 
         int result = jumpingOnTheClouds.jumpingOnClouds(Arrays.asList(c));
-        assertEquals(4, result);
+        assertEquals(6, result);
 
     }
 }
