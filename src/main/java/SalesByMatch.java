@@ -36,6 +36,7 @@ Sample Output
 3
 
  */
+
 import java.io.*;
 import java.math.*;
 import java.security.*;
@@ -45,6 +46,7 @@ import java.util.concurrent.*;
 import java.util.function.*;
 import java.util.regex.*;
 import java.util.stream.*;
+
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -61,18 +63,10 @@ public class SalesByMatch {
 
     public static int sockMerchant(int n, List<Integer> ar) {
         Map<Integer, Integer> socksCountMap = new HashMap<>();
-        ar.forEach( socks -> countSocks(socks, socksCountMap));
 
-        return socksCountMap.values().stream().mapToInt(val -> val/2)
-                        .sum();
-    }
-
-    static void countSocks(Integer socksNumber, Map<Integer, Integer> socksCountMap) {
-        if (socksCountMap.containsKey(socksNumber)) {
-            socksCountMap.put(socksNumber, socksCountMap.get(socksNumber)+1 );
-        } else {
-            socksCountMap.put(socksNumber, 1);
-        }
+        ar.forEach(socksNumber -> socksCountMap.compute(socksNumber, (k, v) -> v == null ? 1 : v + 1));
+        return socksCountMap.values().stream().mapToInt(val -> val / 2)
+                .sum();
     }
 
 }
