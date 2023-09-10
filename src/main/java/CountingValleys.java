@@ -42,28 +42,30 @@ class CountingValleys {
      */
 
     public static int count(int steps, String path) {
-        int currentLevel = 0;
-        int valleys = 0;
-        if (steps <= 1 || steps > 100000) {
-            throw new RuntimeException("Invalid Steps");
-        }
-        String pattern = "^[UD]*$";
-        Pattern regex = Pattern.compile(pattern);
-        Matcher matcher = regex.matcher(path);
-        if (!matcher.matches()) {
-            throw new RuntimeException("Invalid pattern");
-        }
-        for (Character step : path.toCharArray()) {
-            if (step == 'D') {
-                currentLevel -= 1;
-            } else {
-                if (currentLevel == -1) {
-                    valleys++;
-                }
-                currentLevel += 1;
-            }
-        }
-        return valleys;
+        return IntStream.range(0, steps)
+                .mapToObj(i -> path.charAt(i))
+                .reduce(new int[]{0, 0}, (acc, step) -> {
+                    int currentLevel = acc[0];
+                    int valleys = acc[1];
+
+                    if (step == 'U') {
+                        if (currentLevel == -1) {
+                            valleys++;
+
+                        }
+                        currentLevel++;
+                    } else if (step == 'D') {
+                        currentLevel--;
+                    } else {
+                        throw new IllegalArgumentException("Invalid step in the path: " + step);
+                    }
+
+                    return new int[]{currentLevel, valleys};
+                }, (acc1, acc2) -> {
+                    acc1[0] += acc2[0];
+                    acc1[1] += acc2[1];
+                    return acc1;
+                })[1];
     }
 
 }
